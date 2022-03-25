@@ -12,9 +12,9 @@ import (
 )
 
 type MahasiswaInput struct {
-	NIM            int    `json:"nim" gorm:"primary_key" binding:"required"`
+	NIM            int    `json:"nim" gorm:"primary_key" binding:"required" validate:"gt=5"`
 	ID             int    `json:"id" binding:"required"`
-	Nama           string `json:"nama" binding:"required"`
+	Nama           string `json:"nama" binding:"required" validate:"gt=5"`
 	Prodi          string `json:"prodi" binding:"required"`
 	Fakultas       string `json:"fakultas" binding:"required"`
 	Tahun_Angkatan int    `json:"tahun_angkatan" binding:"required"`
