@@ -3,11 +3,11 @@ package models
 import "time"
 
 type Mahasiswa struct {
-	ID             int    `json:"id" gorm:"primary_key"`
+	NIM            int    `json:"nim" gorm:"primary_key"`
+	ID             int    `json:"id"`
 	Nama           string `json:"nama"`
 	Prodi          string `json:"prodi"`
 	Fakultas       string `json:"fakultas"`
-	NIM            int    `json:"nim"`
 	Tahun_Angkatan int    `json:"tahun_angkatan"`
 	CreatedAt      time.Time
 	UpdatedAt      time.Time
