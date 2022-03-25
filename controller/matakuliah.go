@@ -14,7 +14,7 @@ import (
 type MatakuliahInput struct {
 	Kode      string `json:"kode" gorm:"primary_key" binding:"required"`
 	ID        int    `json:"id" binding:"required"`
-	Nama      string `json:"nama" binding:"required" validate:"gt=3"`
+	Nama      string `json:"nama" binding:"required,gt=3"`
 	Jumlah    int    `json:"jumlah" binding:"required"`
 	Dosen     string `json:"dosen" binding:"required"`
 	CreatedAt time.Time
