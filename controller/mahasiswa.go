@@ -20,7 +20,7 @@ type MahasiswaInput struct {
 	UpdatedAt      time.Time
 }
 
-func GetData(c *gin.Context) {
+func GetDataMahasiswa(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
 
 	var mhs []models.Mahasiswa

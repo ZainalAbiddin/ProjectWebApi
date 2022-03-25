@@ -12,6 +12,7 @@ func SetupModels() *gorm.DB {
 
 	}
 	db.AutoMigrate(&Mahasiswa{})
+	db.AutoMigrate(&Matakuliah{})
 
 	return db
 

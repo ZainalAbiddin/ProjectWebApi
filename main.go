@@ -16,13 +16,7 @@ func main() {
 		c.Next()
 	})
 
-	r.GET("/", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{
-			"Pesan": "Golang Web Api Sederhana",
-		})
-	})
-
-	v1 := r.Group("/v1")
+	v1 := r.Group("/api/v1")
 	v1.GET("/", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
 			"Pesan": "Golang Web Api Sederhana",
