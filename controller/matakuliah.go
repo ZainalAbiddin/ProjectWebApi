@@ -1,20 +1,22 @@
 package controller
 
 import (
+	"fmt"
 	"net/http"
 	"time"
 
 	"github.com/ZainalAbiddin/ProjectWebApi/models"
 	"github.com/gin-gonic/gin"
+	"github.com/go-playground/validator/v10"
 	"github.com/jinzhu/gorm"
 )
 
 type MatakuliahInput struct {
-	Kode      string `json:"kode" gorm:"primary_key"`
-	ID        int    `json:"id" `
-	Nama      string `json:"nama"`
-	Jumlah    int    `json:"jumlah"`
-	Dosen     string `json:"dosen"`
+	Kode      string `json:"kode" gorm:"primary_key" binding:"required"`
+	ID        int    `json:"id" binding:"required"`
+	Nama      string `json:"nama" binding:"required"`
+	Jumlah    int    `json:"jumlah" binding:"required"`
+	Dosen     string `json:"dosen" binding:"required"`
 	CreatedAt time.Time
 	UpdatedAt time.Time
 }
@@ -37,9 +39,21 @@ func CreateDataMatakuliah(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
 	//validasi inputan
 	var matakuliahinput MatakuliahInput
+	// if err := c.ShouldBindJSON(&matakuliahinput); err != nil {
+	// 	c.JSON(http.StatusBadRequest, gin.H{
+	// 		"error": err.Error(),
+	// 	})
+	// 	return
+	// }
+
 	if err := c.ShouldBindJSON(&matakuliahinput); err != nil {
+		errorMessages := []string{}
+		for _, e := range err.(validator.ValidationErrors) {
+			errorMessage := fmt.Sprintf("Error %s, meesage: %s", e.Field(), e.ActualTag())
+			errorMessages = append(errorMessages, errorMessage)
+		}
 		c.JSON(http.StatusBadRequest, gin.H{
-			"error": err.Error(),
+			"errors": errorMessages,
 		})
 		return
 	}
@@ -75,7 +89,7 @@ func UpdateDataMaatakuliah(c *gin.Context) {
 	}
 
 	//validasi inputan
-	var matakuliahinput MahasiswaInput
+	var matakuliahinput MatakuliahInput
 	if err := c.ShouldBindJSON(&matakuliahinput); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": err.Error(),

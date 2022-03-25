@@ -1,21 +1,23 @@
 package controller
 
 import (
+	"fmt"
 	"net/http"
 	"time"
 
 	"github.com/ZainalAbiddin/ProjectWebApi/models"
 	"github.com/gin-gonic/gin"
+	"github.com/go-playground/validator/v10"
 	"github.com/jinzhu/gorm"
 )
 
 type MahasiswaInput struct {
-	NIM            int    `json:"nim" gorm:"primary_key"`
-	ID             int    `json:"id"`
-	Nama           string `json:"nama"`
-	Prodi          string `json:"prodi"`
-	Fakultas       string `json:"fakultas"`
-	Tahun_Angkatan int    `json:"tahun_angkatan"`
+	NIM            int    `json:"nim" gorm:"primary_key" binding:"required"`
+	ID             int    `json:"id" binding:"required"`
+	Nama           string `json:"nama" binding:"required"`
+	Prodi          string `json:"prodi" binding:"required"`
+	Fakultas       string `json:"fakultas" binding:"required"`
+	Tahun_Angkatan int    `json:"tahun_angkatan" binding:"required"`
 	CreatedAt      time.Time
 	UpdatedAt      time.Time
 }
@@ -37,9 +39,21 @@ func CreateDataMahasiswa(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
 	//validasi inputan
 	var mahasiswainput MahasiswaInput
+	// if err := c.ShouldBindJSON(&mahasiswainput); err != nil {
+	// 	c.JSON(http.StatusBadRequest, gin.H{
+	// 		"error": err.Error(),
+	// 	})
+	// 	return
+	// }
+
 	if err := c.ShouldBindJSON(&mahasiswainput); err != nil {
+		errorMessages := []string{}
+		for _, e := range err.(validator.ValidationErrors) {
+			errorMessage := fmt.Sprintf("Error %s, meesage: %s", e.Field(), e.ActualTag())
+			errorMessages = append(errorMessages, errorMessage)
+		}
 		c.JSON(http.StatusBadRequest, gin.H{
-			"error": err.Error(),
+			"errors": errorMessages,
 		})
 		return
 	}
@@ -52,6 +66,8 @@ func CreateDataMahasiswa(c *gin.Context) {
 		Fakultas:       mahasiswainput.Fakultas,
 		Tahun_Angkatan: mahasiswainput.Tahun_Angkatan,
 	}
+
+	// if err = mhs.Nama
 	db.Create(&mhs)
 
 	c.JSON(http.StatusOK, gin.H{
