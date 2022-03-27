@@ -39,18 +39,17 @@ func CreateDataMahasiswa(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
 	//validasi inputan
 	var mahasiswainput MahasiswaInput
-	// if err := c.ShouldBindJSON(&mahasiswainput); err != nil {
-	// 	c.JSON(http.StatusBadRequest, gin.H{
-	// 		"error": err.Error(),
-	// 	})
-	// 	return
-	// }
-
 	if err := c.ShouldBindJSON(&mahasiswainput); err != nil {
 		errorMessages := []string{}
 		for _, e := range err.(validator.ValidationErrors) {
-			errorMessage := fmt.Sprintf("Error %s, meesage: %s", e.Field(), e.ActualTag())
-			errorMessages = append(errorMessages, errorMessage)
+			switch e.ActualTag() {
+			case "required":
+				errorMessage := fmt.Sprintf("Error %s, Pesan: Kolom %s harus di isi", e.Field(), e.Field())
+				errorMessages = append(errorMessages, errorMessage)
+			case "gt":
+				errorMessage := fmt.Sprintf("Error %s, Pesan: Kolom %s tidak diisi sesuai format ", e.Field(), e.Field())
+				errorMessages = append(errorMessages, errorMessage)
+			}
 		}
 		c.JSON(http.StatusBadRequest, gin.H{
 			"errors": errorMessages,
