@@ -3,8 +3,8 @@ package models
 import "time"
 
 type Matakuliah struct {
-	Kode      string `json:"kode" gorm:"primary_key"`
-	ID        int    `json:"id" `
+	Kode      string `json:"kode"`
+	ID        int    `json:"id" gorm:"primary_key AUTO_INCREMENT NOT_NULL"`
 	Nama      string `json:"nama"`
 	Jumlah    int    `json:"jumlah"`
 	Dosen     string `json:"dosen"`

@@ -3,8 +3,8 @@ package models
 import "time"
 
 type Mahasiswa struct {
-	NIM            int    `json:"nim" gorm:"primary_key"`
-	ID             int    `json:"id"`
+	NIM            int    `json:"nim"`
+	ID             int    `json:"id" gorm:"primary_key AUTO_INCREMENT NOT_NULL"`
 	Nama           string `json:"nama"`
 	Prodi          string `json:"prodi"`
 	Fakultas       string `json:"fakultas"`
