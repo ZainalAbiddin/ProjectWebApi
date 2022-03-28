@@ -29,7 +29,7 @@ func GetDataMatakuliah(c *gin.Context) {
 	db.Find(&mtk)
 	c.JSON(http.StatusOK, gin.H{
 		"data": mtk,
-		"time": time.Now(),
+		"time": time.Now().Format(time.ANSIC),
 	})
 
 }
@@ -71,7 +71,7 @@ func CreateDataMatakuliah(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"message": "berhasil input data",
 		"data":    mtk,
-		"time":    time.Now(),
+		"time":    time.Now().Format(time.ANSIC),
 	})
 }
 
@@ -103,7 +103,7 @@ func UpdateDataMaatakuliah(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"message": "berhasil ubah data",
 		"data":    mtk,
-		"time":    time.Now(),
+		"time":    time.Now().Format(time.ANSIC),
 	})
 }
 

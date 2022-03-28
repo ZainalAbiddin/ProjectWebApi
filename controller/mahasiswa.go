@@ -29,7 +29,7 @@ func GetDataMahasiswa(c *gin.Context) {
 	db.Find(&mhs)
 	c.JSON(http.StatusOK, gin.H{
 		"data": mhs,
-		"time": time.Now(),
+		"time": time.Now().Format(time.ANSIC),
 	})
 
 }
@@ -56,7 +56,8 @@ func CreateDataMahasiswa(c *gin.Context) {
 		})
 		return
 	}
-	//proses input data
+	//proses input data\
+
 	mhs := models.Mahasiswa{
 		NIM:            mahasiswainput.NIM,
 		ID:             mahasiswainput.ID,
@@ -72,7 +73,7 @@ func CreateDataMahasiswa(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"message": "berhasil input data",
 		"data":    mhs,
-		"time":    time.Now(),
+		"time":    time.Now().Format(time.ANSIC),
 	})
 }
 
@@ -104,7 +105,7 @@ func UpdateDataMahasiswa(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"message": "berhasil ubah data",
 		"data":    mhs,
-		"time":    time.Now(),
+		"time":    time.Now().Format(time.ANSIC),
 	})
 }
 
